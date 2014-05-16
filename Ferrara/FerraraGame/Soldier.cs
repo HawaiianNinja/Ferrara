@@ -8,16 +8,22 @@ namespace FerraraGame
 {
     class Soldier : GameEntity
     {
-
-        public Soldier(Position p, int posX) : base(p, posX) { }
-        public override void Update(GameEntity[][] board)
+        
+        public Soldier(Cell spawnCell, Cell targetCell, Player _leftPlayer) : base(spawnCell, targetCell, _leftPlayer)
         {
-            if (board[CurrentPostion.X + PosX][CurrentPostion.Y] == null)
-            {
-                board[CurrentPostion.X][CurrentPostion.Y] = null;
-                CurrentPostion.UpdatePosition(new Position(PosX, 0));
-                board[CurrentPostion.X][CurrentPostion.Y] = this;
-            }
+            _attackRadius = 2;
+            _route = new Route(spawnCell, targetCell);
+        }
+
+        public override void Update(){
+            //check for duded
+
+            //if dudes
+
+
+            //if no dudes
+            MoveEntity( _route.GetNextCell());
+
         }
     }
 

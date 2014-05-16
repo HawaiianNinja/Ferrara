@@ -10,11 +10,25 @@ namespace FerraraGame
     {
         static void Main(string[] args)
         {
+            /*
             GameBoard b = new GameBoard();
             Console.WriteLine(b);
             b.Update();
             Console.WriteLine("===================================================================================\n");
             Console.WriteLine(b);
+            Console.ReadLine();*/
+
+            Game game = new Game(10, 10);
+
+            Console.WriteLine(game.ToString());
+            game.Update();
+            Console.WriteLine(game.ToString());
+            game.AddLeftSoilder();
+            game.AddLeftSoilder();
+            game.Update();
+            Console.WriteLine(game.ToString());
+            game.Update();
+            Console.WriteLine(game.ToString());
             Console.ReadLine();
         }
     }

@@ -8,17 +8,32 @@ namespace FerraraGame
 {
     abstract class GameEntity
     {
-        public Position CurrentPostion;
-        public int PosX { get; set; }
+        public Cell CurrentCell;
+        private Cell _targetCell;
+        protected int _attackRadius;
+        protected Route _route;
 
-        public GameEntity(Position position, int posX)
+        private Player _owner;
+
+        public GameEntity(Cell startCell, Cell targetCell, Player owner)
         {
-            CurrentPostion = position;
-            PosX = posX;
+            _owner = owner;
+            CurrentCell = startCell;
+            _targetCell = targetCell;
+
+            startCell.GameEntities.Add(this);
         }
 
-        abstract public  void Update(GameEntity[][] board);
 
+        public void MoveEntity(Cell targetCell)
+        {
+            CurrentCell.GameEntities.Remove(this);
+            targetCell.GameEntities.Add(this);
+            CurrentCell = targetCell;
+        }
+
+
+        abstract public void Update();
         public override String  ToString()
         {
             return "1";

@@ -10,25 +10,12 @@ namespace FerraraGame
     class Player
     {
         public int Coins { get; set; }
-        public int PosX;
-        public PlayerBase Base { get; set; }
 
-        public Collection<GameEntity> Pieces { get; set; }
+        public Cell SpawnCell;
 
-        public Player(PlayerBase playerBase, int direction)
+        public Player(Cell spawnCell)
         {
-            Base = playerBase;
-            Pieces = new Collection<GameEntity>();
-            PosX = direction;
-        }
-
-
-
-        internal void Update(GameEntity[][] board)
-        {
-            foreach (var entity in Pieces){
-                entity.Update(board);
-            }
+            SpawnCell = spawnCell;
         }
     }
 }

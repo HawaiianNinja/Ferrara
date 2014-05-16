@@ -8,11 +8,15 @@ namespace FerraraGame
 {
     class PlayerBase : GameEntity
     {
-
-        public PlayerBase(Position p, int posx) : base(p, posx) { }
-
-        public override void Update(GameEntity[][] board)
+        public PlayerBase(Cell cell1, Cell cell2, Player _leftPlayer)
+            : base(cell1, cell2, _leftPlayer)
         {
+        }
+
+        public override void Update()
+        {
+
+
         }
     }
 }
