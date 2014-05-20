@@ -9,7 +9,7 @@ namespace FerraraGame
     abstract class GameEntity
     {
         public Cell CurrentCell;
-        private Cell _targetCell;
+        protected Cell _targetCell;
         protected int _attackRadius;
         protected Route _route;
 

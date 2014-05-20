@@ -21,8 +21,16 @@ namespace FerraraGame
         public Game(int width, int height)
         {
             _graph = new CellGraph(width, height);
-            _leftPlayer = new Player(_graph.GetCellByPosition(new Position(0,height/2)));
+
+
+            _leftPlayer = new Player(_graph.GetCellByPosition(new Position(0, height / 2)));
             _rightPlayer = new Player(_graph.GetCellByPosition(new Position(width - 1,height/2)));
+
+
+            _graph.GetCellByPosition(new Position(width/2, height/2)).Transversable = false;
+            //_graph.GetCellByPosition(new Position(6, 5)).Transversable = false;
+            //_graph.GetCellByPosition(new Position(1, 1)).Transversable = false;
+
 
         }
 

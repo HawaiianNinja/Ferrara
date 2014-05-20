@@ -17,6 +17,28 @@ namespace FerraraGame
 
         public Collection<GameEntity> GameEntities = new Collection<GameEntity>();
 
+        public int NumDiagNeighbors
+        {
+            get
+            {
+                int i = 0;
+                foreach (Cell c in NeighborCells)
+                {
+                    if (IsDiagonalNeighbor(c))
+                    {
+                        i++;
+                    }
+                }
+                return i;
+            }
+            set
+            {
+
+            }
+        }
+ 
+
+
         public bool Transversable { get; set; }
 
 
@@ -30,6 +52,10 @@ namespace FerraraGame
         public override string ToString()
         {
             //return CellsWithinRadius(this, 1).Count.ToString();
+            //return NeighborCells.Count.ToString();
+
+            //return NumDiagNeighbors.ToString();
+
             if (Transversable)
             {
                 return GameEntities.Count.ToString();
@@ -38,13 +64,14 @@ namespace FerraraGame
             {
                 return "¿";
             }
+
         }
 
 
         public Cell CellAtPosition(Position p)
         {
 
-            if (this.Position.CompareTo(p) == 0)
+            if (this.Position.Equals(p))
             {
                 return this;
             }
@@ -54,14 +81,14 @@ namespace FerraraGame
                 throw new Exception();
             }
 
-            int minDistance = NeighborCells.First<Cell>().ManhattanDistancetoPosition(p);
+            int minDistance = NeighborCells.First<Cell>().Position.ManhattanDistanceToPosition(p);
             var minCell = NeighborCells.First<Cell>();
 
             foreach (Cell c in NeighborCells)
             {
-                if (c.ManhattanDistancetoPosition(p) < minDistance)
+                if (c.Position.ManhattanDistanceToPosition(p) < minDistance)
                 {
-                    minDistance = c.ManhattanDistancetoPosition(p);
+                    minDistance = c.Position.ManhattanDistanceToPosition(p);
                     minCell = c;
                 }
             }
@@ -83,7 +110,7 @@ namespace FerraraGame
         {
             foreach (Cell c in NeighborCells)
             {
-                if (centerCell.ManhattanDistancetoPosition(c.Position) <= r && !cc.Contains(c))
+                if (centerCell.ManhattanDistanceToCell(c) <= r && !cc.Contains(c))
                 {
                     cc.Add(c);
                     c.CellsWithinRadiusHelper(centerCell, cc, r);
@@ -93,15 +120,20 @@ namespace FerraraGame
         }
 
 
-
-        public int ManhattanDistancetoPosition(Position p)
+        public bool IsDiagonalNeighbor(Cell c)
         {
-            return Math.Abs(this.Position.X - p.X) + Math.Abs(this.Position.Y - p.Y);
+            return (NeighborCells.Contains(c) && ManhattanDistanceToCell(c) == 2);
         }
+
+        public bool IsNeighbor(Cell c)
+        {
+            return NeighborCells.Contains(c);
+        }
+
 
         public int ManhattanDistanceToCell(Cell c)
         {
-            return Math.Abs(this.Position.X - c.Position.X) + Math.Abs(this.Position.Y - c.Position.Y);
+            return this.Position.ManhattanDistanceToPosition(c.Position);
         }
 
 

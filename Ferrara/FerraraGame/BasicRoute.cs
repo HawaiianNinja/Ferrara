@@ -20,7 +20,7 @@ namespace FerraraGame
 
         private void GenerateRoute(Cell currentCell, Cell targetCell)
         {
-            if (currentCell.Position.CompareTo(targetCell.Position) == 0)
+            if (currentCell.Equals(targetCell))
             {
                 _route.Enqueue(currentCell);
                 return;
@@ -31,14 +31,14 @@ namespace FerraraGame
                 throw new Exception();
             }
             var minCell = currentCell.NeighborCells.First<Cell>();
-            int minDistance = minCell.ManhattanDistancetoPosition(targetCell.Position);
+            int minDistance = minCell.ManhattanDistanceToCell(targetCell);
             
 
             foreach (Cell c in currentCell.NeighborCells)
             {
-                if (c.ManhattanDistancetoPosition(targetCell.Position) < minDistance)
+                if (c.ManhattanDistanceToCell(targetCell) < minDistance)
                 {
-                    minDistance = c.ManhattanDistancetoPosition(targetCell.Position);
+                    minDistance = c.ManhattanDistanceToCell(targetCell);
                     minCell = c;
                 }
             }

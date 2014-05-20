@@ -22,7 +22,10 @@ namespace FerraraGame
 
 
             //if no dudes
-            MoveEntity( _route.GetNextCell());
+            if (!CurrentCell.Equals(_targetCell))
+            {
+                MoveEntity(_route.GetNextCell());
+            }
 
         }
     }

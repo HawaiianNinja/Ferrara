@@ -15,7 +15,7 @@ namespace FerraraGame
 
         private Cell rootCell;
 
-        private Cell[][] _debug;
+        private Cell[][] _graphBuildingArray;
 
         public CellGraph(int x, int y)
         {
@@ -31,14 +31,14 @@ namespace FerraraGame
         public void GenerateEmptyGraph()
         {
 
-            _debug = new Cell[MaxX][];
+            _graphBuildingArray = new Cell[MaxX][];
 
             for (int i = 0; i < MaxX; i++)
             {
-                _debug[i] = new Cell[MaxY];
+                _graphBuildingArray[i] = new Cell[MaxY];
                 for (int j = 0; j < MaxY; j++)
                 {
-                    _debug[i][j] = new Cell(new Position(i, j));
+                    _graphBuildingArray[i][j] = new Cell(new Position(i, j));
 
                 }
             }
@@ -47,36 +47,54 @@ namespace FerraraGame
             {
                 for (int y = 0; y < MaxY; y++)
                 {
-                    //[x][y]
-                    //Left neightbor
-                    if (x > 0)
+
+                    Cell c = _graphBuildingArray[x][y];
+
+                    //iterate over all 8 cells around x,y
+                    for (int i = x - 1; (i <= x + 1); i++)
                     {
-                        _debug[x][y].NeighborCells.Add(_debug[x - 1][y]);
-                    }
+                        for (int j = y - 1; (j <= y + 1); j++)
+                        {
 
-                    //right neighbor
-                    if (x < MaxX - 1)
-                    {
-                        _debug[x][y].NeighborCells.Add(_debug[x + 1][y]);
-                    }
 
-                    //north neigh
-                    if (y > 0)
-                    {
-                        _debug[x][y].NeighborCells.Add(_debug[x][y - 1]);
 
-                    }
 
-                    if (y < MaxY - 1)
-                    {
-                        _debug[x][y].NeighborCells.Add(_debug[x][y + 1]);
+                            int ti = Math.Min(Math.Abs(i), Math.Abs(MaxX - 1));
+                            int tj = Math.Min(Math.Abs(j), Math.Abs(MaxY - 1));
 
+                            Cell tentativeNeighborCell = _graphBuildingArray[ti][tj];
+
+                            if (c.Position.Equals(new Position(0, 2)))
+                            {
+                                if (!c.Equals(tentativeNeighborCell)
+                               && !c.NeighborCells.Contains(tentativeNeighborCell))
+                                {
+                                    c.NeighborCells.Add(tentativeNeighborCell);
+                                }
+                            }
+                            else
+                            {
+
+                                if (!c.Equals(tentativeNeighborCell)
+                                    && !c.NeighborCells.Contains(tentativeNeighborCell))
+                                {
+                                    c.NeighborCells.Add(tentativeNeighborCell);
+                                }
+                            }
+
+                      
+
+
+
+                        }
+
+                        
                     }
 
                 }
             }
 
-            rootCell = _debug[0][0];
+            rootCell = _graphBuildingArray[0][0];
 
 
         }
@@ -91,7 +109,7 @@ namespace FerraraGame
             {
                 for (int x = 0; x < MaxX; x++)
                 {
-                    b.Append(_debug[x][y]);
+                    b.Append(_graphBuildingArray[x][y]);
                 }
                 b.Append("\n");
             }

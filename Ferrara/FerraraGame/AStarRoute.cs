@@ -53,7 +53,9 @@ namespace FerraraGame
                 foreach (Cell c in minCell.Cell.NeighborCells)
                 {
 
-                    AStarCell newCell = new AStarCell(c, targetCell, minCell, minCell.GVal + _straightCost);
+                    int gv = (minCell.Cell.IsDiagonalNeighbor(c)) ? _diagCost : _straightCost;
+
+                    AStarCell newCell = new AStarCell(c, targetCell, minCell, minCell.GVal + gv);
 
 
                     if (!c.Transversable || _closedList.Contains(newCell)) 
@@ -96,6 +98,8 @@ namespace FerraraGame
                 Queue<Cell> route = buildRoute(lastCell);
                 _route = new Queue<Cell>(buildRoute(lastCell).Reverse());
 
+                //throw away frist cell in route because its the cell the dude is already on
+                _route.Dequeue();
 
             }
 
@@ -110,6 +114,7 @@ namespace FerraraGame
 
             while(tCell != null)
             {
+                Console.WriteLine(tCell.ToString());
                 queue.Enqueue(tCell.Cell);
                 tCell = tCell.ParentCell;
             }
@@ -145,7 +150,7 @@ namespace FerraraGame
 
             private int H()
             {
-                return Cell.ManhattanDistanceToCell(_destinationCell);
+                return 10*Cell.ManhattanDistanceToCell(_destinationCell);
             }
 
             public override bool Equals(object obj)
@@ -157,6 +162,11 @@ namespace FerraraGame
             public bool Equals(AStarCell c)
             {
                 return Cell.Equals(c.Cell);
+            }
+
+            public override string ToString()
+            {
+                return "(" + Cell.Position.X + "," + Cell.Position.Y + ")[G: " + GVal.ToString() + " H: " + H().ToString() + " F: " + F().ToString() + "]";
             }
 
         }

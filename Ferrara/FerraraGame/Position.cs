@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FerraraGame
 {
-    class Position : IComparable, IEquatable<Position>
+    class Position : IEquatable<Position>
     {
         public int X;
         public int Y;
@@ -28,24 +28,14 @@ namespace FerraraGame
             Y += p.Y;
         }
 
-        public int CompareTo(Object o)
+       
+
+        public int ManhattanDistanceToPosition(Position p)
         {
-            if (o == null)
-            {
-                return 1;
-            }
-
-            Position p = o as Position;
-
-            
-            if(p.X == X && p.Y == Y)
-            {
-                return 0;
-            }
-
-            return 1;
-
+            return Math.Abs(this.X - p.X) + Math.Abs(this.Y - p.Y);
         }
+
+
 
         public override bool Equals(object obj)
         {
