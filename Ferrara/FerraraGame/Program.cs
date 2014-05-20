@@ -12,7 +12,7 @@ namespace FerraraGame
         {
 
 
-            Game game = new Game(3, 3);
+            Game game = new Game(10, 10);
 
 
             game.AddLeftSoilder();

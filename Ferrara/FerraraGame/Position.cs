@@ -35,6 +35,12 @@ namespace FerraraGame
             return Math.Abs(this.X - p.X) + Math.Abs(this.Y - p.Y);
         }
 
+        public float StraightLineDistanceToPosition(Position p)
+        {
+
+            return (float)Math.Sqrt((this.X - p.X) * (this.X - p.X) + (this.Y - p.Y) * (this.Y - p.Y));
+
+        }
 
 
         public override bool Equals(object obj)

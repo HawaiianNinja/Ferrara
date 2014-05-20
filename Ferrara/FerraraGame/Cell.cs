@@ -136,6 +136,10 @@ namespace FerraraGame
             return this.Position.ManhattanDistanceToPosition(c.Position);
         }
 
+        public float StraightLineDistanceToCell(Cell c)
+        {
+            return this.Position.StraightLineDistanceToPosition(c.Position);
+        }
 
         public override bool Equals(object obj)
         {

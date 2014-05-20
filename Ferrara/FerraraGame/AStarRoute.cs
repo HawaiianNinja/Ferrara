@@ -150,7 +150,7 @@ namespace FerraraGame
 
             private int H()
             {
-                return 10*Cell.ManhattanDistanceToCell(_destinationCell);
+                return 10*Cell.ManhattanDistanceToCell(_destinationCell);                
             }
 
             public override bool Equals(object obj)
