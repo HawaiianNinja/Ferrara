@@ -17,11 +17,13 @@ namespace FerraraGame
 
         public Collection<GameEntity> GameEntities = new Collection<GameEntity>();
 
+        public bool Transversable { get; set; }
 
 
         public Cell(Position p)
         {
             this.Position = p;
+            Transversable = true;
 
         }
 
