@@ -12,7 +12,7 @@ namespace FerraraGame
         public Soldier(Cell spawnCell, Cell targetCell, Player _leftPlayer) : base(spawnCell, targetCell, _leftPlayer)
         {
             _attackRadius = 2;
-            _route = new Route(spawnCell, targetCell);
+            _route = new BasicRoute(spawnCell, targetCell);
         }
 
         public override void Update(){

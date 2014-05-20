@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FerraraGame
 {
-    class Position : IComparable
+    class Position : IComparable, IEquatable<Position>
     {
         public int X;
         public int Y;
@@ -46,6 +46,19 @@ namespace FerraraGame
             return 1;
 
         }
+
+        public override bool Equals(object obj)
+        {
+            Position p = obj as Position;
+
+            return (p.X == X) && (p.Y == Y);
+        }
+
+        public bool Equals(Position p)
+        {
+            return (p.X == X) && (p.Y == Y);
+        }
+
 
 
         public override string ToString()

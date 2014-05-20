@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FerraraGame
 {
-    class Cell
+    class Cell : IEquatable<Cell>
     {
 
 
@@ -47,14 +47,14 @@ namespace FerraraGame
                 throw new Exception();
             }
 
-            int minDistance = NeighborCells.First<Cell>().DistanceToPosition(p);
+            int minDistance = NeighborCells.First<Cell>().ManhattanDistancetoPosition(p);
             var minCell = NeighborCells.First<Cell>();
 
             foreach (Cell c in NeighborCells)
             {
-                if (c.DistanceToPosition(p) < minDistance)
+                if (c.ManhattanDistancetoPosition(p) < minDistance)
                 {
-                    minDistance = c.DistanceToPosition(p);
+                    minDistance = c.ManhattanDistancetoPosition(p);
                     minCell = c;
                 }
             }
@@ -76,7 +76,7 @@ namespace FerraraGame
         {
             foreach (Cell c in NeighborCells)
             {
-                if (centerCell.DistanceToPosition(c.Position) <= r && !cc.Contains(c))
+                if (centerCell.ManhattanDistancetoPosition(c.Position) <= r && !cc.Contains(c))
                 {
                     cc.Add(c);
                     c.CellsWithinRadiusHelper(centerCell, cc, r);
@@ -87,11 +87,28 @@ namespace FerraraGame
 
 
 
-        public int DistanceToPosition(Position p)
+        public int ManhattanDistancetoPosition(Position p)
         {
             return Math.Abs(this.Position.X - p.X) + Math.Abs(this.Position.Y - p.Y);
         }
 
+        public int ManhattanDistanceToCell(Cell c)
+        {
+            return Math.Abs(this.Position.X - c.Position.X) + Math.Abs(this.Position.Y - c.Position.Y);
+        }
+
+
+        public override bool Equals(object obj)
+        {
+            Cell c = obj as Cell;
+            return this.Position.Equals(c.Position);
+        }
+
+
+        public bool Equals(Cell c)
+        {
+            return this.Position.Equals(c.Position);
+        }
 
     }
 }
