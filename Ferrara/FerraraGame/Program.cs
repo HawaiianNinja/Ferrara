@@ -21,14 +21,18 @@ namespace FerraraGame
             Game game = new Game(10, 10);
 
             Console.WriteLine(game.ToString());
-            game.Update();
-            Console.WriteLine(game.ToString());
-            game.AddLeftSoilder();
             game.AddLeftSoilder();
             game.Update();
             Console.WriteLine(game.ToString());
             game.Update();
             Console.WriteLine(game.ToString());
+            game.Update();
+            Console.WriteLine(game.ToString());
+            game.Update();
+            Console.WriteLine(game.ToString());
+            game.Update();
+            Console.WriteLine(game.ToString());
+
             Console.ReadLine();
         }
     }

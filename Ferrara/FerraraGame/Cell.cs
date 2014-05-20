@@ -29,8 +29,15 @@ namespace FerraraGame
 
         public override string ToString()
         {
-            return CellsWithinRadius(this, 1).Count.ToString();
-            //return GameEntities.Count.ToString();
+            //return CellsWithinRadius(this, 1).Count.ToString();
+            if (Transversable)
+            {
+                return GameEntities.Count.ToString();
+            }
+            else
+            {
+                return "¿";
+            }
         }
 
 

@@ -24,9 +24,6 @@ namespace FerraraGame
             _leftPlayer = new Player(_graph.GetCellByPosition(new Position(0,height/2)));
             _rightPlayer = new Player(_graph.GetCellByPosition(new Position(width - 1,height/2)));
 
-            AddLeftSoilder();
-            AddRightSoilder();
-            
         }
 
         public void AddLeftSoilder()

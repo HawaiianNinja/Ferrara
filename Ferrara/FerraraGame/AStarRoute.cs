@@ -84,40 +84,37 @@ namespace FerraraGame
                     }
 
 
-
-
                 }
 
 
             } while (!_openList.IsEmpty && !foundPath);
             
+
+
             if(foundPath)
             {
-                Stack<Cell> backwardsStack = buildRoute(lastCell);
+                Queue<Cell> route = buildRoute(lastCell);
+                _route = new Queue<Cell>(buildRoute(lastCell).Reverse());
 
-                while(!(backwardsStack.Count == 0))
-                {
-                    _route.Enqueue(backwardsStack.Pop());
-                }                
 
             }
 
         }
 
 
-        private Stack<Cell> buildRoute(AStarCell lastCell)
+        private Queue<Cell> buildRoute(AStarCell lastCell)
         {
-            Stack<Cell> stack = new Stack<Cell>();
+            Queue<Cell> queue = new Queue<Cell>();
 
             AStarCell tCell = lastCell;
 
             while(tCell != null)
             {
-                stack.Push(tCell.Cell);
+                queue.Enqueue(tCell.Cell);
                 tCell = tCell.ParentCell;
             }
 
-            return stack;
+            return queue; 
 
         }
 

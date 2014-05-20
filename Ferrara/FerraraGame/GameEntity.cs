@@ -11,7 +11,7 @@ namespace FerraraGame
         public Cell CurrentCell;
         private Cell _targetCell;
         protected int _attackRadius;
-        protected BasicRoute _route;
+        protected Route _route;
 
         private Player _owner;
 
