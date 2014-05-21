@@ -58,9 +58,14 @@ namespace FerraraGame
                     AStarCell newCell = new AStarCell(c, targetCell, minCell, minCell.GVal + gv);
 
 
+
                     if (!c.Transversable || _closedList.Contains(newCell)) 
                         continue;
 
+                    if (c.Position.Equals(new Position(2, 1)))
+                    {
+                        int z = 0;
+                    }
 
                     if (!_openList.Contains(newCell))
                     {
@@ -70,10 +75,10 @@ namespace FerraraGame
                     {
                         AStarCell oldCell = _openList.GetReferenceByValue(newCell);
 
-                        if (oldCell.F() < newCell.F())
+                        if (newCell.GVal < oldCell.GVal)
                         {
                             oldCell.GVal = newCell.GVal;
-                            oldCell.ParentCell = newCell.ParentCell;
+                            oldCell.ParentCell = minCell;
                             newCell = oldCell;
                         }
 
@@ -148,7 +153,7 @@ namespace FerraraGame
                 return GVal + H();
             }
 
-            private int H()
+            public int H()
             {
                 return 10*Cell.ManhattanDistanceToCell(_destinationCell);                
             }
