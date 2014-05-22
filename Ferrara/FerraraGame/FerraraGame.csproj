@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AStarCell.cs" />
     <Compile Include="AStarRoute.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="CellGraph.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="PlayerBase.cs" />
     <Compile Include="Position.cs" />
+    <Compile Include="PriorityQueue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BasicRoute.cs" />
