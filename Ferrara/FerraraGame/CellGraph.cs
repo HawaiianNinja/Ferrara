@@ -1,111 +1,85 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FerraraGame
 {
-    class CellGraph
+    internal class CellGraph
     {
-
-
-        private int MaxX;
-        private int MaxY;
-
-        private Cell rootCell;
+        private readonly int _maxX;
+        private readonly int _maxY;
 
         private Cell[][] _graphBuildingArray;
+        private Cell _rootCell;
 
         public CellGraph(int x, int y)
         {
-            this.MaxX = x;
-            this.MaxY = y;
+            _maxX = x;
+            _maxY = y;
 
-            this.GenerateEmptyGraph();
-
+            GenerateEmptyGraph();
         }
-
 
 
         public void GenerateEmptyGraph()
         {
+            _graphBuildingArray = new Cell[_maxX][];
 
-            _graphBuildingArray = new Cell[MaxX][];
-
-            for (int i = 0; i < MaxX; i++)
+            for (var i = 0; i < _maxX; i++)
             {
-                _graphBuildingArray[i] = new Cell[MaxY];
-                for (int j = 0; j < MaxY; j++)
+                _graphBuildingArray[i] = new Cell[_maxY];
+                for (var j = 0; j < _maxY; j++)
                 {
                     _graphBuildingArray[i][j] = new Cell(new Position(i, j));
-
                 }
             }
 
-            for (int x = 0; x < MaxX; x++)
+            for (var x = 0; x < _maxX; x++)
             {
-                for (int y = 0; y < MaxY; y++)
+                for (var y = 0; y < _maxY; y++)
                 {
-
-                    Cell c = _graphBuildingArray[x][y];
+                    var c = _graphBuildingArray[x][y];
 
                     //iterate over all 8 cells around x,y
-                    for (int i = x - 1; (i <= x + 1); i++)
+                    for (var i = x - 1; (i <= x + 1); i++)
                     {
-                        for (int j = y - 1; (j <= y + 1); j++)
+                        for (var j = y - 1; (j <= y + 1); j++)
                         {
-                            
+                            var ti = Math.Min(Math.Abs(i), Math.Abs(_maxX - 1));
+                            var tj = Math.Min(Math.Abs(j), Math.Abs(_maxY - 1));
 
-                            int ti = Math.Min(Math.Abs(i), Math.Abs(MaxX - 1));
-                            int tj = Math.Min(Math.Abs(j), Math.Abs(MaxY - 1));
-
-                            Cell tentativeNeighborCell = _graphBuildingArray[ti][tj];
+                            var tentativeNeighborCell = _graphBuildingArray[ti][tj];
 
                             if (c.Position.Equals(new Position(0, 2)))
                             {
-                                if (!c.Equals(tentativeNeighborCell)
-                               && !c.NeighborCells.Contains(tentativeNeighborCell))
-                                {
-                                    c.NeighborCells.Add(tentativeNeighborCell);
-                                }
-                            }
-                            else
-                            {
-
                                 if (!c.Equals(tentativeNeighborCell)
                                     && !c.NeighborCells.Contains(tentativeNeighborCell))
                                 {
                                     c.NeighborCells.Add(tentativeNeighborCell);
                                 }
                             }
-
-                      
-
-
-
+                            else
+                            {
+                                if (!c.Equals(tentativeNeighborCell)
+                                    && !c.NeighborCells.Contains(tentativeNeighborCell))
+                                {
+                                    c.NeighborCells.Add(tentativeNeighborCell);
+                                }
+                            }
                         }
-
-                        
                     }
-
                 }
             }
 
-            rootCell = _graphBuildingArray[0][0];
-
-
+            _rootCell = _graphBuildingArray[0][0];
         }
-
-
 
 
         public override string ToString()
         {
-            StringBuilder b = new StringBuilder();
-            for (int y = 0; y < MaxY; y++)
+            var b = new StringBuilder();
+            for (var y = 0; y < _maxY; y++)
             {
-                for (int x = 0; x < MaxX; x++)
+                for (var x = 0; x < _maxX; x++)
                 {
                     b.Append(_graphBuildingArray[x][y] + "\t");
                 }
@@ -117,12 +91,7 @@ namespace FerraraGame
 
         public Cell GetCellByPosition(Position p)
         {
-
-            return rootCell.CellAtPosition(p);
-
+            return _rootCell.CellAtPosition(p);
         }
-
-
-
     }
 }

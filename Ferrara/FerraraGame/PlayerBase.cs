@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FerraraGame
+﻿namespace FerraraGame
 {
-    class PlayerBase : GameEntity
+    internal class PlayerBase : GameEntity
     {
         public PlayerBase(Cell cell1, Cell cell2, Player _leftPlayer)
-            : base(cell1, cell2, _leftPlayer)
+            : base(_leftPlayer, cell2)
         {
         }
 
         public override void Update()
         {
-
-
         }
     }
 }

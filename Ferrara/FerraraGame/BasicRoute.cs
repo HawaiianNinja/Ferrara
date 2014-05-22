@@ -1,28 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FerraraGame
 {
-    class BasicRoute : Route
+    internal class BasicRoute : Route
     {
-
-
-        public BasicRoute(Cell start, Cell target) : base()
+        public BasicRoute(Cell start, Cell target)
         {
-
             GenerateRoute(start, target);
-
         }
 
         private void GenerateRoute(Cell currentCell, Cell targetCell)
         {
             if (currentCell.Equals(targetCell))
             {
-                _route.Enqueue(currentCell);
+                Path.Enqueue(currentCell);
                 return;
             }
 
@@ -30,11 +23,11 @@ namespace FerraraGame
             {
                 throw new Exception();
             }
-            var minCell = currentCell.NeighborCells.First<Cell>();
-            int minDistance = minCell.ManhattanDistanceToCell(targetCell);
-            
+            var minCell = currentCell.NeighborCells.First();
+            var minDistance = minCell.ManhattanDistanceToCell(targetCell);
 
-            foreach (Cell c in currentCell.NeighborCells)
+
+            foreach (var c in currentCell.NeighborCells)
             {
                 if (c.ManhattanDistanceToCell(targetCell) < minDistance)
                 {
@@ -42,21 +35,18 @@ namespace FerraraGame
                     minCell = c;
                 }
             }
-            _route.Enqueue(minCell);
+            Path.Enqueue(minCell);
             GenerateRoute(minCell, targetCell);
         }
 
         public override string ToString()
         {
-            StringBuilder b = new StringBuilder();
-            foreach (Cell c in _route)
+            var b = new StringBuilder();
+            foreach (var c in Path)
             {
                 b.Append(c);
             }
             return b.ToString();
         }
-
-
-
     }
 }

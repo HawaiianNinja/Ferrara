@@ -1,35 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FerraraGame
 {
-    class AStarRoute : Route
+    internal class AStarRoute : Route
     {
-
-
         private const int _straightCost = 10;
         private const int _diagCost = 14;
 
-        
-        private PriorityQueue<int, AStarCell> _openList;
+
         private List<AStarCell> _closedList;
+        private PriorityQueue<int, AStarCell> _openList;
 
 
-
-        public AStarRoute(Cell start, Cell target) : base()
+        public AStarRoute(Cell start, Cell target)
         {
-
             GenerateRoute(start, target);
-
         }
 
 
         private void GenerateRoute(Cell currentCell, Cell targetCell)
         {
-            AStarCell t = new AStarCell(currentCell, targetCell, null, 0);
+            var t = new AStarCell(currentCell, targetCell, null, 0);
 
             _openList = new PriorityQueue<int, AStarCell>();
             _closedList = new List<AStarCell>();
@@ -40,32 +33,24 @@ namespace FerraraGame
             _openList.Enqueue(t.F(), t);
 
 
-            bool foundPath = false;
+            var foundPath = false;
             AStarCell lastCell = null;
 
             do
             {
-
-                AStarCell minCell = _openList.Dequeue();
+                var minCell = _openList.Dequeue();
 
                 _closedList.Add(minCell);
 
-                foreach (Cell c in minCell.Cell.NeighborCells)
+                foreach (var c in minCell.Cell.NeighborCells)
                 {
+                    var gv = (minCell.Cell.IsDiagonalNeighbor(c)) ? _diagCost : _straightCost;
 
-                    int gv = (minCell.Cell.IsDiagonalNeighbor(c)) ? _diagCost : _straightCost;
-
-                    AStarCell newCell = new AStarCell(c, targetCell, minCell, minCell.GVal + gv);
-
+                    var newCell = new AStarCell(c, targetCell, minCell, minCell.GVal + gv);
 
 
-                    if (!c.Transversable || _closedList.Contains(newCell)) 
+                    if (!c.Transversable || _closedList.Contains(newCell))
                         continue;
-
-                    if (c.Position.Equals(new Position(2, 1)))
-                    {
-                        int z = 0;
-                    }
 
                     if (!_openList.Contains(newCell))
                     {
@@ -73,7 +58,7 @@ namespace FerraraGame
                     }
                     else
                     {
-                        AStarCell oldCell = _openList.GetReferenceByValue(newCell);
+                        var oldCell = _openList.GetReferenceByValue(newCell);
 
                         if (newCell.GVal < oldCell.GVal)
                         {
@@ -81,69 +66,62 @@ namespace FerraraGame
                             oldCell.ParentCell = minCell;
                             newCell = oldCell;
                         }
-
                     }
 
-                    if(newCell.Cell.Equals(targetCell))
+                    if (newCell.Cell.Equals(targetCell))
                     {
-                        foundPath=true;
+                        foundPath = true;
                         lastCell = newCell;
                     }
-
-
                 }
-
-
             } while (!_openList.IsEmpty && !foundPath);
-            
 
 
-            if(foundPath)
+            if (foundPath)
             {
-                Queue<Cell> route = buildRoute(lastCell);
-                _route = new Queue<Cell>(buildRoute(lastCell).Reverse());
+                Path = new Queue<Cell>(buildRoute(lastCell).Reverse());
 
                 //throw away frist cell in route because its the cell the dude is already on
-                _route.Dequeue();
-
+                Path.Dequeue();
             }
-
         }
 
 
         private Queue<Cell> buildRoute(AStarCell lastCell)
         {
-            Queue<Cell> queue = new Queue<Cell>();
+            var queue = new Queue<Cell>();
 
-            AStarCell tCell = lastCell;
+            var tCell = lastCell;
 
-            while(tCell != null)
+            while (tCell != null)
             {
                 queue.Enqueue(tCell.Cell);
                 tCell = tCell.ParentCell;
             }
 
-            return queue; 
-
+            return queue;
         }
-
 
 
         private class AStarCell : IEquatable<AStarCell>
         {
-            public Cell Cell;
-            private Cell _destinationCell;
+            public readonly Cell Cell;
+            private readonly Cell _destinationCell;
+
+            public AStarCell(Cell currentCell, Cell targetCell, AStarCell parentCell, int gVal)
+            {
+                Cell = currentCell;
+                _destinationCell = targetCell;
+                ParentCell = parentCell;
+                GVal = gVal;
+            }
 
             public AStarCell ParentCell { get; set; }
             public int GVal { get; set; }
 
-
-            public AStarCell(Cell currentCell, Cell targetCell, AStarCell parentCell, int gVal)
+            public bool Equals(AStarCell c)
             {
-                this.Cell = currentCell;
-                this._destinationCell = targetCell;
-                this.ParentCell = parentCell;
-                this.GVal = gVal;
+                return Cell.Equals(c.Cell);
             }
 
 
@@ -152,101 +130,77 @@ namespace FerraraGame
                 return GVal + H();
             }
 
-            public int H()
+            private int H()
             {
-                return 10*Cell.ManhattanDistanceToCell(_destinationCell);                
+                return 10*Cell.ManhattanDistanceToCell(_destinationCell);
             }
 
             public override bool Equals(object obj)
             {
-                AStarCell c = obj as AStarCell;
-                return Cell.Equals(c.Cell);
-            }
-
-            public bool Equals(AStarCell c)
-            {
-                return Cell.Equals(c.Cell);
+                var c = obj as AStarCell;
+                return c != null && Cell.Equals(c.Cell);
             }
 
             public override string ToString()
             {
-                return "(" + Cell.Position.X + "," + Cell.Position.Y + ")[G: " + GVal.ToString() + " H: " + H().ToString() + " F: " + F().ToString() + "]";
+                return "(" + Cell.Position.X + "," + Cell.Position.Y + ")[G: " + GVal + " H: " + H() + " F: " + F() +
+                       "]";
             }
-
         }
 
 
-
-
-
-        private class PriorityQueue<P, V>
+        private class PriorityQueue<TP, TV>
         {
-            private SortedDictionary<P, Queue<V>> list = new SortedDictionary<P, Queue<V>>();
-            public void Enqueue(P priority, V value)
+            private readonly SortedDictionary<TP, Queue<TV>> _list = new SortedDictionary<TP, Queue<TV>>();
+
+            public bool IsEmpty
             {
-                Queue<V> q;
-                if (!list.TryGetValue(priority, out q))
+                get { return !_list.Any(); }
+            }
+
+            public void Enqueue(TP priority, TV value)
+            {
+                Queue<TV> q;
+                if (!_list.TryGetValue(priority, out q))
                 {
-                    q = new Queue<V>();
-                    list.Add(priority, q);
+                    q = new Queue<TV>();
+                    _list.Add(priority, q);
                 }
                 q.Enqueue(value);
             }
-            public V Dequeue()
+
+            public TV Dequeue()
             {
                 // will throw if there isn’t any first element!
-                var pair = list.First();
+                var pair = _list.First();
                 var v = pair.Value.Dequeue();
                 if (pair.Value.Count == 0) // nothing left of the top priority.
-                    list.Remove(pair.Key);
+                    _list.Remove(pair.Key);
                 return v;
             }
 
 
-            public bool IsEmpty
+            public TV GetReferenceByValue(TV value)
             {
-                get { return !list.Any(); }
-            }
-
-            public V GetReferenceByValue(V value)
-            {
-
-                foreach (Queue<V> queue in list.Values)
+                foreach (var queue in _list.Values)
                 {
-                    foreach(V item in queue)
+                    foreach (var item in queue)
                     {
                         if (item.Equals(value))
                         {
                             return item;
                         }
                     }
-
                 }
 
-                return default(V);
+                return default(TV);
             }
 
 
-            public bool Contains(V value)
+            public bool Contains(TV value)
             {
-
-                foreach (Queue<V> queue in list.Values)
-                {
-                    if (queue.Contains(value))
-                        return true;
-
-                }
-                return false;
-
-
+                return _list.Values.Any(queue => queue.Contains(value));
             }
-
         }
-
-
-
-
-
-
     }
 }

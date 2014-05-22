@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FerraraGame
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
-
-
-            Game game = new Game(5, 5);
+            var game = new Game(5, 5);
 
 
             game.AddLeftSoilder();
@@ -22,9 +16,9 @@ namespace FerraraGame
             game.Update();
             game.AddRightSoilder();
             Console.WriteLine(game.ToString());
-            game.Update();            
+            game.Update();
             Console.WriteLine(game.ToString());
-            game.Update();            
+            game.Update();
             Console.WriteLine(game.ToString());
             game.Update();
             Console.WriteLine(game.ToString());

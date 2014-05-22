@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FerraraGame
 {
-    class Position : IEquatable<Position>
+    internal class Position : IEquatable<Position>
     {
         public int X;
         public int Y;
@@ -15,6 +11,11 @@ namespace FerraraGame
         {
             X = x;
             Y = y;
+        }
+
+        public bool Equals(Position p)
+        {
+            return (p.X == X) && (p.Y == Y);
         }
 
         public Position Add(Position position)
@@ -28,39 +29,29 @@ namespace FerraraGame
             Y += p.Y;
         }
 
-       
 
         public int ManhattanDistanceToPosition(Position p)
         {
-            return Math.Abs(this.X - p.X) + Math.Abs(this.Y - p.Y);
+            return Math.Abs(X - p.X) + Math.Abs(Y - p.Y);
         }
 
         public float StraightLineDistanceToPosition(Position p)
         {
-
-            return (float)Math.Sqrt((this.X - p.X) * (this.X - p.X) + (this.Y - p.Y) * (this.Y - p.Y));
-
+            return (float) Math.Sqrt((X - p.X)*(X - p.X) + (Y - p.Y)*(Y - p.Y));
         }
 
 
         public override bool Equals(object obj)
         {
-            Position p = obj as Position;
+            var p = obj as Position;
 
-            return (p.X == X) && (p.Y == Y);
+            return p != null && (p.X == X && (p.Y == Y));
         }
-
-        public bool Equals(Position p)
-        {
-            return (p.X == X) && (p.Y == Y);
-        }
-
 
 
         public override string ToString()
         {
             return "(" + X + "," + Y + ")";
         }
-
     }
 }

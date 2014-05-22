@@ -1,29 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FerraraGame
 {
-    abstract class Route
+    internal abstract class Route
     {
+        protected Queue<Cell> Path;
 
 
-        protected Queue<Cell> _route;
-        
-        
-        public Route()
+        protected Route()
         {
-            _route = new Queue<Cell>();
+            Path = new Queue<Cell>();
         }
 
 
         public Cell GetNextCell()
         {
-            return _route.Dequeue();
+            return Path.Dequeue();
         }
-
     }
-
 }

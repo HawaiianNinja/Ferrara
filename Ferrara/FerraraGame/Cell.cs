@@ -1,53 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FerraraGame
 {
-    class Cell : IEquatable<Cell>
+    internal class Cell : IEquatable<Cell>
     {
-
-
+        public Collection<GameEntity> GameEntities = new Collection<GameEntity>();
+        public Collection<Cell> NeighborCells = new Collection<Cell>();
         public Position Position;
 
-        public Collection<Cell> NeighborCells = new Collection<Cell>();
-
-        public Collection<GameEntity> GameEntities = new Collection<GameEntity>();
+        public Cell(Position p)
+        {
+            Position = p;
+            Transversable = true;
+        }
 
         public int NumDiagNeighbors
         {
             get
             {
-                int i = 0;
-                foreach (Cell c in NeighborCells)
-                {
-                    if (IsDiagonalNeighbor(c))
-                    {
-                        i++;
-                    }
-                }
-                return i;
-            }
-            set
-            {
-
+                return NeighborCells.Count(IsDiagonalNeighbor);
             }
         }
- 
 
 
         public bool Transversable { get; set; }
 
-
-        public Cell(Position p)
+        public bool Equals(Cell c)
         {
-            this.Position = p;
-            Transversable = true;
-
+            return Position.Equals(c.Position);
         }
+
 
         public override string ToString()
         {
@@ -60,54 +44,37 @@ namespace FerraraGame
             {
                 if (GameEntities.Count > 0)
                 {
-                    string toRetrun = "";
-                    foreach (var gameEntity in GameEntities)
-                    {
-                        toRetrun += gameEntity.ToString() + ":";
-                    }
-                    return toRetrun;
+                    return GameEntities.Aggregate("", (current, gameEntity) => current + (gameEntity + ":"));
                 }
-                else
-                {
-                    return "0";
-                }
+                return "0";
             }
-            else
-            {
-                return "¿";
-            }
-
+            return "¿";
         }
 
 
         public Cell CellAtPosition(Position p)
         {
-
-            if (this.Position.Equals(p))
+            if (Position.Equals(p))
             {
                 return this;
             }
 
-            if (this.NeighborCells.Count == 0)
+            if (NeighborCells.Count == 0)
             {
                 throw new Exception();
             }
 
-            int minDistance = NeighborCells.First<Cell>().Position.ManhattanDistanceToPosition(p);
-            var minCell = NeighborCells.First<Cell>();
+            var minDistance = NeighborCells.First().Position.ManhattanDistanceToPosition(p);
+            var minCell = NeighborCells.First();
 
-            foreach (Cell c in NeighborCells)
+            foreach (var c in NeighborCells.Where(c => c.Position.ManhattanDistanceToPosition(p) < minDistance))
             {
-                if (c.Position.ManhattanDistanceToPosition(p) < minDistance)
-                {
-                    minDistance = c.Position.ManhattanDistanceToPosition(p);
-                    minCell = c;
-                }
+                minDistance = c.Position.ManhattanDistanceToPosition(p);
+                minCell = c;
             }
 
 
             return minCell.CellAtPosition(p);
-
         }
 
         public Collection<Cell> CellsWithinRadius(Cell centerCell, int r)
@@ -119,14 +86,13 @@ namespace FerraraGame
 
         private void CellsWithinRadiusHelper(Cell centerCell, Collection<Cell> cc, int r)
         {
-            foreach (Cell c in NeighborCells)
+            foreach (var c in NeighborCells)
             {
                 if (centerCell.ManhattanDistanceToCell(c) <= r && !cc.Contains(c))
                 {
                     cc.Add(c);
                     c.CellsWithinRadiusHelper(centerCell, cc, r);
                 }
-
             }
         }
 
@@ -144,25 +110,18 @@ namespace FerraraGame
 
         public int ManhattanDistanceToCell(Cell c)
         {
-            return this.Position.ManhattanDistanceToPosition(c.Position);
+            return Position.ManhattanDistanceToPosition(c.Position);
         }
 
         public float StraightLineDistanceToCell(Cell c)
         {
-            return this.Position.StraightLineDistanceToPosition(c.Position);
+            return Position.StraightLineDistanceToPosition(c.Position);
         }
 
         public override bool Equals(object obj)
         {
-            Cell c = obj as Cell;
-            return this.Position.Equals(c.Position);
+            var c = obj as Cell;
+            return c != null && Position.Equals(c.Position);
         }
-
-
-        public bool Equals(Cell c)
-        {
-            return this.Position.Equals(c.Position);
-        }
-
     }
 }

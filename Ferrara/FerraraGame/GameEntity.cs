@@ -1,31 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FerraraGame
 {
-    abstract class GameEntity
+    internal abstract class GameEntity
     {
-        
+        protected int AttackDamage;
+        protected int AttackRadius;
         public Cell CurrentCell;
-        protected Cell _targetCell;
-        protected int _attackRadius;
-        protected Route _route;
-        protected int _health;
-        protected int _reward;
-        protected int _attackDamage;
+        protected int Health;
+        public Player Owner;
+        protected int Reward;
+        protected Route Route;
+        protected Cell TargetCell;
 
-        public Player _owner;
-
-        public GameEntity(Cell startCell, Cell targetCell, Player owner)
+        protected GameEntity(Player owner, Cell targetCell)
         {
-            _owner = owner;
-            CurrentCell = startCell;
-            _targetCell = targetCell;
+            Owner = owner;
+            CurrentCell = Owner.SpawnCell;
+            TargetCell = targetCell;
 
-            startCell.GameEntities.Add(this);
+            CurrentCell.GameEntities.Add(this);
         }
 
 
@@ -37,20 +31,21 @@ namespace FerraraGame
         }
 
 
-        abstract public void Update();
-        public override String  ToString()
+        public abstract void Update();
+
+        public override String ToString()
         {
-            return _health.ToString();
+            return Health.ToString();
         }
 
         public void TakeDamage(int amount)
         {
-            _health -= amount;
+            Health -= amount;
         }
 
         public bool IsDead()
         {
-            return _health <= 0;
+            return Health <= 0;
         }
 
         public void RemoveFromGraph()
