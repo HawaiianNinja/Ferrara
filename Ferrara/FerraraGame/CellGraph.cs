@@ -70,7 +70,7 @@ namespace FerraraGame
                 }
             }
 
-            _rootCell = _graphBuildingArray[0][0];
+            _rootCell = _graphBuildingArray[_maxX/2][_maxY/2];
         }
 
 
@@ -91,7 +91,8 @@ namespace FerraraGame
 
         public Cell GetCellByPosition(Position p)
         {
-            return _rootCell.CellAtPosition(p);
+            return _graphBuildingArray[p.X][p.Y];
+            //return _rootCell.CellAtPosition(p);
         }
     }
 }

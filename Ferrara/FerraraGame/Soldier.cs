@@ -7,7 +7,7 @@ namespace FerraraGame
     {
         public Soldier(Player owner, Cell targetCell) : base(owner, targetCell)
         {
-            AttackRadius = 1;
+            AttackRadius = 2;
             Route = new AStarRoute(CurrentCell, TargetCell);
             Health = 10;
             Reward = 10;
@@ -17,6 +17,7 @@ namespace FerraraGame
         public override void Update()
         {
             //check for dudes
+
             var neighbors = CurrentCell.CellsWithinRadius(CurrentCell, AttackRadius);
             var nearbyEnemies = new Collection<GameEntity>();
 

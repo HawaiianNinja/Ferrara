@@ -46,7 +46,7 @@ namespace FerraraGame
                 {
                     var gv = (minCell.Cell.IsDiagonalNeighbor(c)) ? DiagCost : StraightCost;
 
-                    var newCell = new AStarCell(c, targetCell, minCell, minCell.PastCost + gv);
+                    var newCell = new AStarCell(c, targetCell, minCell, minCell.PathCost + gv);
 
 
                     if (!c.Transversable || _closedList.Contains(newCell))
@@ -59,11 +59,10 @@ namespace FerraraGame
                     else
                     {
                         var oldCell = _openList.GetReferenceByValue(newCell);
-                        Console.WriteLine(oldCell + "\t" + newCell);
 
-                        if (newCell.PastCost < oldCell.PastCost)
+                        if (newCell.PathCost < oldCell.PathCost)
                         {
-                            oldCell.PastCost = newCell.PastCost;
+                            oldCell.PathCost = newCell.PathCost;
                             oldCell.ParentCell = minCell;
                             newCell = oldCell;
                         }

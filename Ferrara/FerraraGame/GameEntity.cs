@@ -35,7 +35,7 @@ namespace FerraraGame
 
         public override String ToString()
         {
-            return Health.ToString();
+            return "["+Health + " " + Owner.SpawnCell.Position.X+"]";
         }
 
         public void TakeDamage(int amount)
