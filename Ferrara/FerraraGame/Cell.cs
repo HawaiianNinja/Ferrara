@@ -58,7 +58,19 @@ namespace FerraraGame
 
             if (Transversable)
             {
-                return GameEntities.Count.ToString();
+                if (GameEntities.Count > 0)
+                {
+                    string toRetrun = "";
+                    foreach (var gameEntity in GameEntities)
+                    {
+                        toRetrun += gameEntity.ToString() + ":";
+                    }
+                    return toRetrun;
+                }
+                else
+                {
+                    return "0";
+                }
             }
             else
             {
@@ -102,7 +114,6 @@ namespace FerraraGame
         {
             var cc = new Collection<Cell>();
             CellsWithinRadiusHelper(centerCell, cc, r);
-            cc.Remove(this);
             return cc;
         }
 
