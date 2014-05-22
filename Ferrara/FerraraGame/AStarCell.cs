@@ -7,16 +7,16 @@ namespace FerraraGame
         public readonly Cell Cell;
         private readonly Cell _destinationCell;
 
-        public AStarCell(Cell currentCell, Cell targetCell, AStarCell parentCell, int gVal)
+        public AStarCell(Cell currentCell, Cell targetCell, AStarCell parentCell, int pastCost)
         {
             Cell = currentCell;
             _destinationCell = targetCell;
             ParentCell = parentCell;
-            GVal = gVal;
+            PastCost = pastCost;
         }
 
         public AStarCell ParentCell { get; set; }
-        public int GVal { get; set; }
+        public int PastCost { get; set; }
 
         public bool Equals(AStarCell c)
         {
@@ -24,12 +24,12 @@ namespace FerraraGame
         }
 
 
-        public int F()
+        public int FullCost()
         {
-            return GVal + H();
+            return PastCost + HeuristicCost();
         }
 
-        private int H()
+        private int HeuristicCost()
         {
             return 10*Cell.ManhattanDistanceToCell(_destinationCell);
         }
@@ -42,7 +42,7 @@ namespace FerraraGame
 
         public override string ToString()
         {
-            return "(" + Cell.Position.X + "," + Cell.Position.Y + ")[G: " + GVal + " H: " + H() + " F: " + F() +
+            return "(" + Cell.Position.X + "," + Cell.Position.Y + ")[G: " + PastCost + " H: " + HeuristicCost() + " F: " + FullCost() +
                    "]";
         }
     }

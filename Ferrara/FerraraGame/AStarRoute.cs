@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FerraraGame
@@ -21,7 +22,7 @@ namespace FerraraGame
 
         private void GenerateRoute(Cell currentCell, Cell targetCell)
         {
-            var t = new AStarCell(currentCell, targetCell, null, 0);
+            var startCell = new AStarCell(currentCell, targetCell, null, 0);
 
             _openList = new PriorityQueue<int, AStarCell>();
             _closedList = new List<AStarCell>();
@@ -29,7 +30,7 @@ namespace FerraraGame
 
             //http://blogs.msdn.com/b/ericlippert/archive/2007/10/10/path-finding-using-a-in-c-3-0-part-four.aspx
             //http://www.policyalmanac.org/games/aStarTutorial.htm
-            _openList.Enqueue(t.F(), t);
+            _openList.Enqueue(startCell.FullCost(), startCell);
 
 
             var foundPath = false;
@@ -45,7 +46,7 @@ namespace FerraraGame
                 {
                     var gv = (minCell.Cell.IsDiagonalNeighbor(c)) ? DiagCost : StraightCost;
 
-                    var newCell = new AStarCell(c, targetCell, minCell, minCell.GVal + gv);
+                    var newCell = new AStarCell(c, targetCell, minCell, minCell.PastCost + gv);
 
 
                     if (!c.Transversable || _closedList.Contains(newCell))
@@ -53,15 +54,16 @@ namespace FerraraGame
 
                     if (!_openList.Contains(newCell))
                     {
-                        _openList.Enqueue(newCell.F(), newCell);
+                        _openList.Enqueue(newCell.FullCost(), newCell);
                     }
                     else
                     {
                         var oldCell = _openList.GetReferenceByValue(newCell);
+                        Console.WriteLine(oldCell + "\t" + newCell);
 
-                        if (newCell.GVal < oldCell.GVal)
+                        if (newCell.PastCost < oldCell.PastCost)
                         {
-                            oldCell.GVal = newCell.GVal;
+                            oldCell.PastCost = newCell.PastCost;
                             oldCell.ParentCell = minCell;
                             newCell = oldCell;
                         }
@@ -78,7 +80,7 @@ namespace FerraraGame
 
             if (foundPath)
             {
-                Path = new Queue<Cell>(buildRoute(lastCell).Reverse());
+                Path = new Queue<Cell>(BuildRoute(lastCell).Reverse());
 
                 //throw away frist cell in route because its the cell the dude is already on
                 Path.Dequeue();
@@ -86,7 +88,7 @@ namespace FerraraGame
         }
 
 
-        private IEnumerable<Cell> buildRoute(AStarCell lastCell)
+        private static IEnumerable<Cell> BuildRoute(AStarCell lastCell)
         {
             var queue = new Queue<Cell>();
 

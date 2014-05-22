@@ -28,8 +28,11 @@ namespace FerraraGame
             // will throw if there isn’t any first element!
             var pair = _list.First();
             var v = pair.Value.Dequeue();
-            if (pair.Value.Count == 0) // nothing left of the top priority.
+            if (pair.Value.Count == 0)
+            {
+                // nothing left of the top priority.
                 _list.Remove(pair.Key);
+            }
             return v;
         }
 

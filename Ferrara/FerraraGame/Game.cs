@@ -23,6 +23,7 @@ namespace FerraraGame
 
 
             _graph.GetCellByPosition(new Position(width/2, height/2)).Transversable = false;
+            _graph.GetCellByPosition(new Position(width / 2, height / 2 - 1)).Transversable = false;
             //_graph.GetCellByPosition(new Position(6, 5)).Transversable = false;
             //_graph.GetCellByPosition(new Position(1, 1)).Transversable = false;
         }
