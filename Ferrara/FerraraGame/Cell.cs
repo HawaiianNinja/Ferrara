@@ -47,6 +47,7 @@ namespace FerraraGame
                     return GameEntities.Aggregate("", (current, gameEntity) => current + gameEntity);
                 }
                 return "0";
+
             }
             return "¿";
         }

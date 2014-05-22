@@ -17,7 +17,6 @@ namespace FerraraGame
         public override void Update()
         {
             //check for dudes
-
             var neighbors = CurrentCell.CellsWithinRadius(CurrentCell, AttackRadius);
             var nearbyEnemies = new Collection<GameEntity>();
 

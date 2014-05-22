@@ -6,17 +6,16 @@ namespace FerraraGame
     {
         private static void Main()
         {
-            var game = new Game(1000, 1000);
+            var game = new Game(100, 100);
             
             for (int i = 0; i < 60; i++)
             {
                     game.MakeWall(new Position(50,i));
 
             }
-
             var start = DateTime.Now;
             Console.WriteLine(start);
-            for (int i = 0; i < 10000000; i++)
+            for (int i = 0; i < 10; i++)
             {
                 
                 game.AddLeftSoilder();
@@ -28,7 +27,6 @@ namespace FerraraGame
             var endtime = DateTime.Now;
             Console.WriteLine(endtime);
             Console.WriteLine((endtime.Subtract(start)));
-
             Console.ReadLine();
 
 //            game.AddLeftSoilder();

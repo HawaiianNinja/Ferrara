@@ -88,7 +88,6 @@ namespace FerraraGame
             return b.ToString();
         }
 
-
         public Cell GetCellByPosition(Position p)
         {
             return _graphBuildingArray[p.X][p.Y];
