@@ -16,6 +16,7 @@ namespace FerraraGame
 
 
             game.AddLeftSoilder();
+            game.AddRightSoilder();
             Console.WriteLine(game.ToString());
             game.Update();
             Console.WriteLine(game.ToString());

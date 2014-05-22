@@ -119,7 +119,6 @@ namespace FerraraGame
 
             while(tCell != null)
             {
-                Console.WriteLine(tCell.ToString());
                 queue.Enqueue(tCell.Cell);
                 tCell = tCell.ParentCell;
             }
