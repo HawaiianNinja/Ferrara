@@ -48,13 +48,16 @@ namespace FerraraGame
 
         public void Update()
         {
-
             foreach(var e in _gameEntities)
             {
                 e.Update();
             }
 
-
+            foreach (var gameEntity in _gameEntities.Where(gameEntity => gameEntity.IsDead()))
+            {
+                gameEntity.RemoveFromGraph();
+            }
+            _gameEntities = new Collection<GameEntity>(_gameEntities.Where(o => !o.IsDead()).ToList());
         }
 
         public override string ToString()

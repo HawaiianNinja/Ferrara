@@ -12,8 +12,11 @@ namespace FerraraGame
         protected Cell _targetCell;
         protected int _attackRadius;
         protected Route _route;
+        protected int _health;
+        protected int _reward;
+        protected int _attackDamage;
 
-        private Player _owner;
+        public Player _owner;
 
         public GameEntity(Cell startCell, Cell targetCell, Player owner)
         {
@@ -36,7 +39,22 @@ namespace FerraraGame
         abstract public void Update();
         public override String  ToString()
         {
-            return "1";
+            return _health.ToString();
+        }
+
+        public void TakeDamage(int amount)
+        {
+            _health -= amount;
+        }
+
+        public bool IsDead()
+        {
+            return _health <= 0;
+        }
+
+        public void RemoveFromGraph()
+        {
+            CurrentCell.GameEntities.Remove(this);
         }
     }
 }

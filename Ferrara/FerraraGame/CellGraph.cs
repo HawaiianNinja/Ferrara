@@ -55,9 +55,7 @@ namespace FerraraGame
                     {
                         for (int j = y - 1; (j <= y + 1); j++)
                         {
-
-
-
+                            
 
                             int ti = Math.Min(Math.Abs(i), Math.Abs(MaxX - 1));
                             int tj = Math.Min(Math.Abs(j), Math.Abs(MaxY - 1));
@@ -109,7 +107,7 @@ namespace FerraraGame
             {
                 for (int x = 0; x < MaxX; x++)
                 {
-                    b.Append(_graphBuildingArray[x][y]);
+                    b.Append(_graphBuildingArray[x][y] + "\t");
                 }
                 b.Append("\n");
             }

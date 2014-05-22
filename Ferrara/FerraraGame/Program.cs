@@ -12,13 +12,15 @@ namespace FerraraGame
         {
 
 
-            Game game = new Game(10, 10);
+            Game game = new Game(5, 5);
 
 
             game.AddLeftSoilder();
             game.AddRightSoilder();
+            game.AddLeftSoilder();
             Console.WriteLine(game.ToString());
             game.Update();
+            game.AddRightSoilder();
             Console.WriteLine(game.ToString());
             game.Update();            
             Console.WriteLine(game.ToString());
