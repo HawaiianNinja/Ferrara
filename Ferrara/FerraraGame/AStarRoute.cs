@@ -21,9 +21,9 @@ namespace FerraraGame
         }
 
 
-        private void GenerateRoute(Cell sCell, Cell targetCell)
+        private void GenerateRoute(Cell startCell, Cell targetCell)
         {
-            var startCell = new AStarCell(sCell, targetCell, null, 0);
+            var startACell = new AStarCell(startCell, targetCell, null, 0);
 
             _openList = new PriorityQueue();
             _closedList = new HashSet<Cell>();
@@ -33,7 +33,7 @@ namespace FerraraGame
 
             //http://blogs.msdn.com/b/ericlippert/archive/2007/10/10/path-finding-using-a-in-c-3-0-part-four.aspx
             //http://www.policyalmanac.org/games/aStarTutorial.htm
-            _openList.Enqueue(startCell.FullCost(), startCell);
+            _openList.Enqueue(startACell.FullCost(), startACell);
 
 
             var foundPath = false;
