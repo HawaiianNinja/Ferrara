@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,9 +11,9 @@ namespace FerraraGame
         private const int DiagCost = 14;
 
 
-        private List<AStarCell> _closedList;
-        private PriorityQueue<int, AStarCell> _openList;
-
+        //private List<AStarCell> _closedList;
+        private PriorityQueue _openList;
+        private HashSet<AStarCell> _closedListHS;
 
         public AStarRoute(Cell start, Cell target)
         {
@@ -24,8 +25,11 @@ namespace FerraraGame
         {
             var startCell = new AStarCell(currentCell, targetCell, null, 0);
 
-            _openList = new PriorityQueue<int, AStarCell>();
-            _closedList = new List<AStarCell>();
+            _openList = new PriorityQueue();
+            //_closedList = new List<AStarCell>();
+            _closedListHS = new HashSet<AStarCell>();
+
+
 
 
             //http://blogs.msdn.com/b/ericlippert/archive/2007/10/10/path-finding-using-a-in-c-3-0-part-four.aspx
@@ -40,26 +44,28 @@ namespace FerraraGame
             {
                 var minCell = _openList.Dequeue();
 
-                _closedList.Add(minCell);
+                //_closedList.Add(minCell);
 
-                foreach (var c in minCell.Cell.NeighborCells)
+                _closedListHS.Add(minCell);
+
+                foreach (var neighbor in minCell.Cell.NeighborCells)
                 {
-                    var gv = (minCell.Cell.IsDiagonalNeighbor(c)) ? DiagCost : StraightCost;
+                    var gv = (minCell.Cell.IsDiagonalNeighbor(neighbor)) ? DiagCost : StraightCost;
 
-                    var newCell = new AStarCell(c, targetCell, minCell, minCell.PathCost + gv);
+                    var newCell = new AStarCell(neighbor, targetCell, minCell, minCell.PathCost + gv);
 
 
-                    if (!c.Transversable || _closedList.Contains(newCell))
+                    if (!neighbor.Transversable || _closedListHS.Contains(newCell))
                         continue;
 
-                    if (!_openList.Contains(newCell))
+                    var oldCell = _openList.GetReferenceByValue(newCell);
+
+                    if (oldCell == null)
                     {
                         _openList.Enqueue(newCell.FullCost(), newCell);
                     }
                     else
                     {
-                        var oldCell = _openList.GetReferenceByValue(newCell);
-
                         if (newCell.PathCost < oldCell.PathCost)
                         {
                             oldCell.PathCost = newCell.PathCost;

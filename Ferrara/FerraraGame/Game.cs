@@ -20,17 +20,17 @@ namespace FerraraGame
             _rightPlayer = new Player(_graph.GetCellByPosition(new Position(width - 1, height/2)));
 
 
-//            _graph.GetCellByPosition(new Position(width/2, height/2)).Transversable = false;
-//            _graph.GetCellByPosition(new Position(1, 0)).Transversable = false;
-//            _graph.GetCellByPosition(new Position(1, 1)).Transversable = false;
-//            _graph.GetCellByPosition(new Position(1, 2)).Transversable = false;
-//            _graph.GetCellByPosition(new Position(1, 3)).Transversable = false;
-//            _graph.GetCellByPosition(new Position(1, 4)).Transversable = false;
-//            _graph.GetCellByPosition(new Position(3, 1)).Transversable = false;
-//            _graph.GetCellByPosition(new Position(3, 2)).Transversable = false;
-//            _graph.GetCellByPosition(new Position(3, 3)).Transversable = false;
-//            _graph.GetCellByPosition(new Position(3, 4)).Transversable = false;
-//            _graph.GetCellByPosition(new Position(3, 5)).Transversable = false;
+            _graph.GetCellByPosition(new Position(width / 2, height / 2)).Transversable = false;
+            _graph.GetCellByPosition(new Position(1, 0)).Transversable = false;
+            _graph.GetCellByPosition(new Position(1, 1)).Transversable = false;
+            _graph.GetCellByPosition(new Position(1, 2)).Transversable = false;
+            _graph.GetCellByPosition(new Position(1, 3)).Transversable = false;
+            _graph.GetCellByPosition(new Position(1, 4)).Transversable = false;
+            _graph.GetCellByPosition(new Position(3, 1)).Transversable = false;
+            _graph.GetCellByPosition(new Position(3, 2)).Transversable = false;
+            _graph.GetCellByPosition(new Position(3, 3)).Transversable = false;
+            _graph.GetCellByPosition(new Position(3, 4)).Transversable = false;
+            _graph.GetCellByPosition(new Position(3, 5)).Transversable = false;
             //_graph.GetCellByPosition(new Position(6, 5)).Transversable = false;
             //_graph.GetCellByPosition(new Position(1, 1)).Transversable = false;
         }

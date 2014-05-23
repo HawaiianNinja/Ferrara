@@ -81,7 +81,7 @@ namespace FerraraGame
             {
                 for (var x = 0; x < _maxX; x++)
                 {
-                    b.Append(_graphBuildingArray[x][y] + "\t");
+                    b.Append(_graphBuildingArray[x][y]);
                 }
                 b.Append("\n");
             }

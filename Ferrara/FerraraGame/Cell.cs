@@ -42,11 +42,12 @@ namespace FerraraGame
 
             if (Transversable)
             {
-                if (GameEntities.Count > 0)
-                {
-                    return GameEntities.Aggregate("", (current, gameEntity) => current + gameEntity);
-                }
-                return "0";
+                //if (GameEntities.Count > 0)
+                //{
+                //    return GameEntities.Aggregate("", (current, gameEntity) => current + gameEntity);
+                //}
+                //return "0";
+                return GameEntities.Count.ToString();
 
             }
             return "¿";
@@ -100,7 +101,7 @@ namespace FerraraGame
 
         public bool IsDiagonalNeighbor(Cell c)
         {
-            return (NeighborCells.Contains(c) && ManhattanDistanceToCell(c) == 2);
+            return ManhattanDistanceToCell(c) == 2;
         }
 
         public bool IsNeighbor(Cell c)

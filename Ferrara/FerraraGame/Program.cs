@@ -7,22 +7,22 @@ namespace FerraraGame
         private static void Main()
         {
             var game = new Game(100, 100);
-            
-            for (int i = 0; i < 60; i++)
+
+            for (int i = 0; i < 90; i++)
             {
-                    game.MakeWall(new Position(50,i));
+                game.MakeWall(new Position(50, i));
 
             }
             var start = DateTime.Now;
             Console.WriteLine(start);
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 1; i++)
             {
-                
+
                 game.AddLeftSoilder();
                 game.AddRightSoilder();
                 game.Update();
-                
-                
+
+
             }
             var endtime = DateTime.Now;
             Console.WriteLine(endtime);
@@ -30,15 +30,6 @@ namespace FerraraGame
             Console.ReadLine();
 
 //            game.AddLeftSoilder();
-//            game.AddRightSoilder();
-//            game.AddLeftSoilder();
-//            Console.WriteLine(game.ToString());
-//            game.Update();
-//            Console.WriteLine(game.ToString());
-//            game.Update();
-//            Console.WriteLine(game.ToString());
-//            game.Update();
-//            game.AddRightSoilder();
 //            Console.WriteLine(game.ToString());
 //            game.Update();
 //            Console.WriteLine(game.ToString());
@@ -53,9 +44,15 @@ namespace FerraraGame
 //            game.Update();
 //            Console.WriteLine(game.ToString());
 //            game.Update();
-//            Console.WriteLine(game.ToString()); 
+//            Console.WriteLine(game.ToString());
 //            game.Update();
-//            Console.WriteLine(game.ToString()); 
+//            Console.WriteLine(game.ToString());
+//            game.Update();
+//            Console.WriteLine(game.ToString());
+//            game.Update();
+//            Console.WriteLine(game.ToString());
+//            game.Update();
+//            Console.WriteLine(game.ToString());
 //            Console.ReadLine();
         }
     }

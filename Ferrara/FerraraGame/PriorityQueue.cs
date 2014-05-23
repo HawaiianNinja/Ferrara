@@ -1,29 +1,32 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace FerraraGame
 {
-    internal class PriorityQueue<TP, TV>
+    internal class PriorityQueue
     {
-        private readonly SortedDictionary<TP, Queue<TV>> _list = new SortedDictionary<TP, Queue<TV>>();
+        private readonly SortedDictionary<int, Queue<AStarCell>> _list = new SortedDictionary<int, Queue<AStarCell>>();
+        private Dictionary<Cell, AStarCell> _dictionary = new Dictionary<Cell, AStarCell>(); 
 
         public bool IsEmpty
         {
             get { return !_list.Any(); }
         }
 
-        public void Enqueue(TP priority, TV value)
+        public void Enqueue(int priority, AStarCell value)
         {
-            Queue<TV> q;
+            Queue<AStarCell> q;
             if (!_list.TryGetValue(priority, out q))
             {
-                q = new Queue<TV>();
+                q = new Queue<AStarCell>();
                 _list.Add(priority, q);
             }
             q.Enqueue(value);
+            _dictionary.Add(value.Cell, value);
         }
 
-        public TV Dequeue()
+        public AStarCell Dequeue()
         {
             // will throw if there isn’t any first element!
             var pair = _list.First();
@@ -33,30 +36,23 @@ namespace FerraraGame
                 // nothing left of the top priority.
                 _list.Remove(pair.Key);
             }
+            _dictionary.Remove(v.Cell);
             return v;
         }
 
 
-        public TV GetReferenceByValue(TV value)
+        public AStarCell GetReferenceByValue(AStarCell value)
         {
-            foreach (var queue in _list.Values)
-            {
-                foreach (var item in queue)
-                {
-                    if (item.Equals(value))
-                    {
-                        return item;
-                    }
-                }
-            }
-
-            return default(TV);
+            AStarCell toReturn;
+            _dictionary.TryGetValue(value.Cell, out toReturn);
+            return toReturn;
         }
 
 
-        public bool Contains(TV value)
+        public bool Contains(AStarCell value)
         {
-            return _list.Values.Any(queue => queue.Contains(value));
+            return GetReferenceByValue(value) != null;
+//            return _list.Values.Any(queue => queue.Contains(value));
         }
     }
 }
