@@ -13,7 +13,7 @@ namespace FerraraGame
 
         //private List<AStarCell> _closedList;
         private PriorityQueue _openList;
-        private HashSet<AStarCell> _closedListHS;
+        private HashSet<Cell> _closedList;
 
         public AStarRoute(Cell start, Cell target)
         {
@@ -21,13 +21,12 @@ namespace FerraraGame
         }
 
 
-        private void GenerateRoute(Cell currentCell, Cell targetCell)
+        private void GenerateRoute(Cell sCell, Cell targetCell)
         {
-            var startCell = new AStarCell(currentCell, targetCell, null, 0);
+            var startCell = new AStarCell(sCell, targetCell, null, 0);
 
             _openList = new PriorityQueue();
-            //_closedList = new List<AStarCell>();
-            _closedListHS = new HashSet<AStarCell>();
+            _closedList = new HashSet<Cell>();
 
 
 
@@ -42,21 +41,19 @@ namespace FerraraGame
 
             do
             {
-                var minCell = _openList.Dequeue();
+                var currentCell = _openList.Dequeue();
+                _closedList.Add(currentCell.Cell);
 
-                //_closedList.Add(minCell);
-
-                _closedListHS.Add(minCell);
-
-                foreach (var neighbor in minCell.Cell.NeighborCells)
+                foreach (var neighbor in currentCell.Cell.NeighborCells)
                 {
-                    var gv = (minCell.Cell.IsDiagonalNeighbor(neighbor)) ? DiagCost : StraightCost;
-
-                    var newCell = new AStarCell(neighbor, targetCell, minCell, minCell.PathCost + gv);
-
-
-                    if (!neighbor.Transversable || _closedListHS.Contains(newCell))
+                    if (!neighbor.Transversable || _closedList.Contains(neighbor))
                         continue;
+
+                    var gv = (currentCell.Cell.IsDiagonalNeighbor(neighbor)) ? DiagCost : StraightCost;
+
+                    var newCell = new AStarCell(neighbor, targetCell, currentCell, currentCell.PathCost + gv);
+
+
 
                     var oldCell = _openList.GetReferenceByValue(newCell);
 
@@ -69,7 +66,7 @@ namespace FerraraGame
                         if (newCell.PathCost < oldCell.PathCost)
                         {
                             oldCell.PathCost = newCell.PathCost;
-                            oldCell.ParentCell = minCell;
+                            oldCell.ParentCell = currentCell;
                             newCell = oldCell;
                         }
                     }

@@ -54,5 +54,12 @@ namespace FerraraGame
             return GetReferenceByValue(value) != null;
 //            return _list.Values.Any(queue => queue.Contains(value));
         }
+
+        public bool Contains(Cell value)
+        {
+            AStarCell toReturn;
+            _dictionary.TryGetValue(value, out toReturn);
+            return toReturn != null;
+        }
     }
 }
