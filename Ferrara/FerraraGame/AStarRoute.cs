@@ -54,6 +54,7 @@ namespace FerraraGame
                     var newCell = new AStarCell(neighbor, targetCell, currentCell, currentCell.PathCost + gv);
 
 
+                    //_openList.Enqueue(newCell.FullCost(), newCell);
 
                     var oldCell = _openList.GetReferenceByValue(newCell);
 

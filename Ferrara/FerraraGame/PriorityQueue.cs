@@ -9,6 +9,8 @@ namespace FerraraGame
         private readonly SortedDictionary<int, Queue<AStarCell>> _list = new SortedDictionary<int, Queue<AStarCell>>();
         private Dictionary<Cell, AStarCell> _dictionary = new Dictionary<Cell, AStarCell>(); 
 
+
+
         public bool IsEmpty
         {
             get { return !_list.Any(); }
