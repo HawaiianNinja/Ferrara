@@ -63,12 +63,17 @@ namespace FerraraGame
                         _openList.Enqueue(newCell.FullCost(), newCell);
                     }
                     else
-                    {
+                    {                 
+
                         if (newCell.PathCost < oldCell.PathCost)
                         {
-                            oldCell.PathCost = newCell.PathCost;
-                            oldCell.ParentCell = currentCell;
-                            newCell = oldCell;
+
+                            _openList.RemoveElement(oldCell.FullCost(), oldCell);
+                            _openList.Enqueue(newCell.FullCost(), newCell);
+                            
+                            //oldCell.PathCost = newCell.PathCost;
+                            //oldCell.ParentCell = currentCell;
+                            //newCell = oldCell;
                         }
                     }
 

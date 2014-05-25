@@ -6,8 +6,9 @@ namespace FerraraGame
 {
     internal class PriorityQueue
     {
-        private readonly SortedDictionary<int, Queue<AStarCell>> _list = new SortedDictionary<int, Queue<AStarCell>>();
+        private readonly SortedDictionary<int, List<AStarCell>> _list = new SortedDictionary<int, List<AStarCell>>();
         private Dictionary<Cell, AStarCell> _dictionary = new Dictionary<Cell, AStarCell>(); 
+
 
 
 
@@ -18,28 +19,55 @@ namespace FerraraGame
 
         public void Enqueue(int priority, AStarCell value)
         {
-            Queue<AStarCell> q;
+            List<AStarCell> q;
             if (!_list.TryGetValue(priority, out q))
             {
-                q = new Queue<AStarCell>();
+                q = new List<AStarCell>();
                 _list.Add(priority, q);
             }
-            q.Enqueue(value);
+            q.Add(value);
             _dictionary.Add(value.Cell, value);
         }
+
+
+
 
         public AStarCell Dequeue()
         {
             // will throw if there isn’t any first element!
             var pair = _list.First();
-            var v = pair.Value.Dequeue();
+
+            // will throw if the queue is empty
+            var v = pair.Value.First();
+
+
+            pair.Value.RemoveAt(0);
+            _dictionary.Remove(v.Cell);
+
             if (pair.Value.Count == 0)
             {
                 // nothing left of the top priority.
                 _list.Remove(pair.Key);
             }
-            _dictionary.Remove(v.Cell);
+            
             return v;
+        }
+
+
+        public void RemoveElement(int priority, AStarCell cell)
+        {
+
+            List<AStarCell> l = _list[priority];
+
+            l.Remove(cell);
+
+            _dictionary.Remove(cell.Cell);
+
+            if(_list[priority].Count == 0)
+            {
+                _list.Remove(priority);
+            }
+
         }
 
 
@@ -54,7 +82,7 @@ namespace FerraraGame
         public bool Contains(AStarCell value)
         {
             return GetReferenceByValue(value) != null;
-//            return _list.Values.Any(queue => queue.Contains(value));
+        
         }
 
         public bool Contains(Cell value)
