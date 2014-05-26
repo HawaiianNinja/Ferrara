@@ -6,12 +6,12 @@ namespace FerraraGame
     {
         private static void Main()
         {
-            var game = new Game(1000, 1000);
+            var game = new Game(500, 250);
 
-            for (int i = 0; i < 900; i++)
+            for (int i = 0; i < 240; i++)
             {
-                game.MakeWall(new Position(500, i));
-                game.MakeWall(new Position(510, 999-i));
+                game.MakeWall(new Position(250, i));
+                game.MakeWall(new Position(260, 249-i));
 
             }
             var start = DateTime.Now;
